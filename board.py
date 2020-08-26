@@ -15,6 +15,9 @@ class Board:
         self.put_random_tile()
         self.put_random_tile()
 
+    def giveTempBoard(self):
+        return np.array([[0] * self.dimension for _ in range(self.dimension)])
+        
 
     def makeBoardGrid(self):
         for i in range(self.dimension):
@@ -75,9 +78,6 @@ class Board:
                     tile.draw(self.window)
 
             pygame.display.update()
-    
-
-
 
 
     def move_tiles(self, direction):
@@ -98,43 +98,50 @@ class Board:
 
         self.draw()
 
-        # self.print_board_numbers(self.board)
-
 
     def shiftRight(self):
-    # newBoard = newGrid()
-        for row in self.board:
-            for i in range(len(row) - 1, 0, -1): # 0 is excluded
-                if row[i] == row[i - 1]:
-                    row[i] = row[i] * 2
-                    row[i-1] = 0
-                self.slideRight()
+        self.slideRight()
+        for row in range(len(self.board)):
+            for i in range(len(self.board[row]) - 1, 0, -1): # 0 is excluded
+                if self.board[row][i] == self.board[row][i - 1]:
+                    self.board[row][i] = self.board[row][i] * 2
+                    self.board[row][i-1] = 0
+            self.slideRight()
 
 
     def slideRight(self):
-        for row in self.board:
-            for i in range(len(self.board) - 1):
-                for i in range(len(self.board) - 1):
-                    if row[i] != 0 and row[i + 1] == 0:
-                        row[i + 1] = row[i]
-                        row[i] = 0
+        tempBoard = self.giveTempBoard()
 
+        for row in range(len(self.board)):
+            j = len(tempBoard) - 1
+            for col in range(len(self.board) - 1, -1, -1):
+        
+                if self.board[row][col] != 0:
+                    tempBoard[row][j] = self.board[row][col]
+                    j -= 1
 
-    def slideLeft(self):
-        for row in self.board:
-            for i in range(len(self.board) - 1):
-                for i in range(len(self.board) - 1):
-                    if row[i + 1] != 0 and row[i] == 0:
-                        row[i] = row[i + 1]
-                        row[i + 1] = 0
-
+        self.board = tempBoard
 
     def shiftLeft(self):
-        #invert everything then shift right
-        self.shiftRight()
-
-        for _ in range(len(self.board)):
+        self.slideLeft()
+        for row in range(len(self.board)):
+            for i in range(0, len(self.board) - 1): # 0 is excluded
+                if self.board[row][i] == self.board[row][i + 1]:
+                    self.board[row][i] = self.board[row][i] * 2
+                    self.board[row][i + 1] = 0
             self.slideLeft()
+
+    def slideLeft(self):
+        tempBoard = self.giveTempBoard()
+
+        for row in range(len(self.board)):
+            j = 0
+            for col in range(len(self.board)):
+                
+                if self.board[row][col] != 0:
+                    tempBoard[row][j] = self.board[row][col]
+                    j += 1
+        self.board = tempBoard
 
 
     def shiftDown(self):

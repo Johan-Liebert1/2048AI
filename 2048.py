@@ -2,6 +2,9 @@
 from termcolor import colored
 import numpy as np
 
+def tempGrid():
+    return np.array([[0]*6 for _ in range(6)])
+
 def newGrid():
     return np.array([
             [4,0,8,8,0,4],
@@ -14,10 +17,10 @@ def newGrid():
 board = newGrid()
 
 def shiftRight(board):
-    # newBoard = newGrid()
-    # slideRight(board)
+    board = slideRight(board)
     print(colored("After first slide right", 'red'))
     print_board_numbers(board)
+    
     for row in board:
         for i in range(len(row) - 1, 0, -1): # 0 is excluded
             if row[i] == row[i - 1] and row[i] != 0:
@@ -29,20 +32,29 @@ def shiftRight(board):
 
 
 def slideRight(board):
-    for row in board:
-        for i in range(len(board) - 1):
-            for i in range(len(board) - 1):
-                if row[i] != 0 and row[i + 1] == 0:
-                    row[i + 1] = row[i]
-                    row[i] = 0
+    new_board = tempGrid()
+    for row in range(len(board)):
+        j = len(new_board[0]) - 1
+
+        for col in range(len(board[row]) - 1, -1, -1):
+            if board[row][col] != 0:
+                new_board[row][j] = board[row][col]
+                j -= 1
+
+    return new_board
 
 
 def slideLeft(board):
-    for row in board:
-        for i in range(len(board) - 1):
-            if row[i + 1] != 0 and row[i] == 0:
-                row[i] = row[i + 1]
-                row[i + 1] = 0
+    new_board = tempGrid()
+    for row in range(len(board)):
+        j = 0
+
+        for col in range(len(board[row]) - 1, -1, -1):
+            if board[row][col] != 0:
+                new_board[row][j] = board[row][col]
+                j += 1
+
+    board = new_board
 
 def shiftLeft(board):
     shiftRight(board)
@@ -79,14 +91,10 @@ def print_board_numbers(board):
 print_board_numbers(board)
 # shiftRight(board)
 # print_board_numbers(board)
-shiftRight(board)
+# shiftRight(board)
 shiftRight(board)
 # shiftUp(board)
+# slideRight(board)
 print_board_numbers(board)
 
-# for row in board:
-#     row = row[::-1]
-#     print(row)
-
-# print_board_numbers(board)
 

@@ -12,7 +12,7 @@ window = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
 board = None
 
 # MAIN LOOP
-board = Board(window, 4)
+board = Board(window, 6)
 board.draw()
 
 pygame.display.update()
