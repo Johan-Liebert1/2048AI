@@ -1,4 +1,5 @@
 colors = {
+    'BOARD_BORDER' : (187, 173, 160),
     'WHITE' : (255, 255, 255),
     'BOARD_COLOR' : (214, 205, 196),
     'BLACK' : (80, 80, 80),

@@ -11,16 +11,37 @@ class Board:
     def __init__(self, window, dimension):
         self.dimension = dimension
         self.window = window
-        # self.board = np.array([[0] * dimension for _ in range(dimension)])
+        self.board = np.array([[0] * dimension for _ in range(dimension)])
 
-        self.board = np.array([
-            [4,0,8,8,0,4],
-            [0,0,0,0,0,0],
-            [16,0,0,0,0,16],
-            [16,0,0,0,0,16],
-            [0,0,0,0,0,0],
-            [2,0,8,8,0,2],
-        ])
+        # self.board = np.array([
+        #     [4,0,8,8,0,4],
+        #     [0,0,0,0,0,0],
+        #     [16,0,0,0,0,16],
+        #     [16,0,0,0,0,16],
+        #     [0,0,0,0,0,0],
+        #     [2,0,8,8,0,2],
+        # ])
+
+
+    def makeBoardGrid(self):
+        for i in range(self.dimension):
+            pygame.draw.line(
+                    self.window, 
+                    colors['BOARD_BORDER'],
+                    ( 0, i * (WIN_WIDTH // self.dimension) ), ( WIN_WIDTH, i * (WIN_WIDTH // self.dimension) ),
+                    4 # line width
+                )
+
+            for j in range(self.dimension):
+
+                pygame.draw.line(
+                    self.window,
+                    colors['BOARD_BORDER'],
+                    ( j * (WIN_WIDTH // self.dimension), 0 ), ( j * (WIN_WIDTH // self.dimension), WIN_WIDTH ),
+                    4 # line width
+                )
+
+            pygame.display.update()
 
     def get_random_nums(self):
         return random.randrange(self.dimension), random.randrange(self.dimension)
@@ -46,8 +67,6 @@ class Board:
 
 
     def place_tiles(self):
-        self.window.fill(colors['BOARD_COLOR'])
-        pygame.display.flip()
 
         for i in range(self.dimension):
             for j in range(self.dimension):
@@ -144,8 +163,9 @@ class Board:
         print(string, "\n\n")
 
 
+
     def draw(self):
-
+        self.window.fill(colors['BOARD_COLOR'])
+        pygame.display.flip()
         self.place_tiles()
-
-    
+        self.makeBoardGrid()
