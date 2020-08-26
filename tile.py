@@ -30,11 +30,11 @@ class Tile:
             )
         )
 
-        if self.number <= 16:
+        if self.number <= 16 or self.number == 128 or self.number == 256:
             text_color = colors['BLACK']
         
         else:
-            text_color = colors['BOARD_COLOR']
+            text_color = colors['WHITE']
 
         text = self.FONT.render(str(self.number), True, text_color)
         text_height = text.get_height()

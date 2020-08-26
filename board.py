@@ -26,24 +26,23 @@ class Board:
         return random.randrange(self.dimension), random.randrange(self.dimension)
 
 
-    # def find_random_empty_space(self):
-    #     row, col = self.get_random_nums()
+    def find_random_empty_space(self):
+        row, col = self.get_random_nums()
 
-    #     while self.board[row][col] != 0:
-    #         row, col = self.get_random_nums()
+        while self.board[row][col] != 0:
+            row, col = self.get_random_nums()
 
-    #     return row, col
+        return row, col
 
 
-    # def put_random_tile(self):
-    #     row, col = self.find_random_empty_space()
+    def put_random_tile(self):
+        row, col = self.find_random_empty_space()
 
-    #     # 90% of the time random number is 2, rest of the time it's 4 
+        # 90% of the time random number is 2, rest of the time it's 4 
 
-    #     number = 2 if random.randrange(1, 101) <= 90 else 4
+        number = 2 if random.randrange(1, 101) <= 90 else 4
 
-    #     self.board[row][col] = number
-    #     self.place_tiles()
+        self.board[row][col] = number
 
 
     def place_tiles(self):
@@ -68,8 +67,6 @@ class Board:
 
     def move_tiles(self, direction):
         # direction can be UP, DOWN, LEFT, RIGHT
-        direction = direction.lower()
-
         if direction == 'up':
             self.shiftUp()
 
@@ -82,9 +79,12 @@ class Board:
         elif direction == 'left':
             self.shiftLeft()
 
+        self.put_random_tile()
+
         self.draw()
 
-        self.print_board_numbers(self.board)
+        # self.print_board_numbers(self.board)
+
 
     def shiftRight(self):
     # newBoard = newGrid()
