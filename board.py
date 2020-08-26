@@ -12,15 +12,8 @@ class Board:
         self.dimension = dimension
         self.window = window
         self.board = np.array([[0] * dimension for _ in range(dimension)])
-
-        # self.board = np.array([
-        #     [4,0,8,8,0,4],
-        #     [0,0,0,0,0,0],
-        #     [16,0,0,0,0,16],
-        #     [16,0,0,0,0,16],
-        #     [0,0,0,0,0,0],
-        #     [2,0,8,8,0,2],
-        # ])
+        self.put_random_tile()
+        self.put_random_tile()
 
 
     def makeBoardGrid(self):
@@ -82,7 +75,10 @@ class Board:
                     tile.draw(self.window)
 
             pygame.display.update()
-        
+    
+
+
+
 
     def move_tiles(self, direction):
         # direction can be UP, DOWN, LEFT, RIGHT
@@ -112,26 +108,29 @@ class Board:
                 if row[i] == row[i - 1]:
                     row[i] = row[i] * 2
                     row[i-1] = 0
-            self.slideRight()
+                self.slideRight()
 
 
     def slideRight(self):
         for row in self.board:
             for i in range(len(self.board) - 1):
-                if row[i] != 0 and row[i + 1] == 0:
-                    row[i + 1] = row[i]
-                    row[i] = 0
+                for i in range(len(self.board) - 1):
+                    if row[i] != 0 and row[i + 1] == 0:
+                        row[i + 1] = row[i]
+                        row[i] = 0
 
 
     def slideLeft(self):
         for row in self.board:
             for i in range(len(self.board) - 1):
-                if row[i + 1] != 0 and row[i] == 0:
-                    row[i] = row[i + 1]
-                    row[i + 1] = 0
+                for i in range(len(self.board) - 1):
+                    if row[i + 1] != 0 and row[i] == 0:
+                        row[i] = row[i + 1]
+                        row[i + 1] = 0
 
 
     def shiftLeft(self):
+        #invert everything then shift right
         self.shiftRight()
 
         for _ in range(len(self.board)):
@@ -163,6 +162,21 @@ class Board:
         print(string, "\n\n")
 
 
+    def isGameOver(self):
+        for i in range(self.dimension):
+            for j in range(self.dimension):
+
+                if self.board[i][j] == 0:
+                    return False
+                
+                if i != 3 and self.board[i][j] == self.board[i + 1][j]:
+                    return False
+                
+                if j != 3 and self.board[i][j] == self.board[i][j + 1]:
+                    return False    
+            
+        return True
+        
 
     def draw(self):
         self.window.fill(colors['BOARD_COLOR'])

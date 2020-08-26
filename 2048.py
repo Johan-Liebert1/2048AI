@@ -5,7 +5,7 @@ import numpy as np
 def newGrid():
     return np.array([
             [4,0,8,8,0,4],
-            [0,0,0,0,0,0],
+            [4,2,2,2,2,0],
             [16,0,0,0,0,16],
             [16,0,0,0,0,16],
             [0,0,0,0,0,0],
@@ -15,20 +15,26 @@ board = newGrid()
 
 def shiftRight(board):
     # newBoard = newGrid()
+    # slideRight(board)
+    print(colored("After first slide right", 'red'))
+    print_board_numbers(board)
     for row in board:
         for i in range(len(row) - 1, 0, -1): # 0 is excluded
-            if row[i] == row[i - 1]:
+            if row[i] == row[i - 1] and row[i] != 0:
                 row[i] = row[i] * 2
-                row[i-1] = 0
-        slideRight(board)
+                row[i - 1] = 0
+
+            slideRight(board)
+    
 
 
 def slideRight(board):
     for row in board:
         for i in range(len(board) - 1):
-            if row[i] != 0 and row[i + 1] == 0:
-                row[i + 1] = row[i]
-                row[i] = 0
+            for i in range(len(board) - 1):
+                if row[i] != 0 and row[i + 1] == 0:
+                    row[i + 1] = row[i]
+                    row[i] = 0
 
 
 def slideLeft(board):
@@ -73,8 +79,9 @@ def print_board_numbers(board):
 print_board_numbers(board)
 # shiftRight(board)
 # print_board_numbers(board)
-# shiftLeft(board)
-shiftUp(board)
+shiftRight(board)
+shiftRight(board)
+# shiftUp(board)
 print_board_numbers(board)
 
 # for row in board:
